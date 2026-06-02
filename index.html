@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papelería Rv Design - Estudio • Diseño • Y más</title>
+    <!-- Tailwind CSS para el diseño rápido y responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons para iconos modernos -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- ✅ TODO LO DE ESTILO ESTÁ AQUÍ ADENTRO, NO TIENES QUE BUSCAR NADA -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0b071e;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.1) 0%, transparent 40%),
+                radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 0);
+            background-size: 100% 100%, 100% 100%, 40px 40px;
+            color: #f3f4f6;
+        }
+
+        h1, h2, h3, .font-space {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Estrellas brillantes de fondo */
+        .stars-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background-image: 
+                radial-gradient(2px 2px at 40px 60px, #fff, rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 120px 200px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 200px 80px, #e9d5ff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 280px 320px, #f472b6, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 350px 240px, #fff, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 400px 400px;
+            opacity: 0.6;
+        }
+
+        /* Efecto de brillo de nebulosa */
+        .cosmic-card {
+            background: rgba(20, 15, 43, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .cosmic-card:hover {
+            border-color: rgba(139, 92, 246, 0.5);
+            box-shadow: 0 0 25px rgba(139, 92, 246, 0.25);
+            transform: translateY(-4px);
+        }
+
+        .cosmic-btn-primary {
+            background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+            transition: all 0.3s ease;
+        }
+
+        .cosmic-btn-primary:hover {
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+            transform: scale(1.02);
+        }
+
+        /* Personalización de scroll */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b071e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #7c3aed;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9061f9;
+        }
+        
+        /* Estilo para el icono del carrito */
+        .cart-icon-container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(139, 92, 246, 0.2);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .cart-icon-container:hover {
+            background: rgba(139, 92, 246, 0.4);
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
+        }
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ✅ ESTILOS NUEVOS PARA CARRITO FLOTANTE (YA ESTÁN AQUÍ) */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(11, 7, 30, 0.85);
+            backdrop-filter: blur(8px);
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .cart-modal.active {
+            display: block;
+        }
+        .cart-content {
+            max-width: 500px;
+            margin: 2rem auto;
+            position: relative;
+        }
+        .close-cart {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #7c3aed;
+            color: white;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body class="min-h-screen relative overflow-x-hidden pb-12">
+    <!-- Capa de estrellas -->
+    <div class="stars-overlay"></div>
+
+    <!-- HEADER / HERO -->
+    <header class="relative z-10 pt-10 pb-6 text-center px-4 max-w-6xl mx-auto">
+        <div class="inline-block p-1 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 mb-4 animate-pulse">
+            <div class="bg-[#0b071e] rounded-full px-6 py-2">
+                <span class="text-xs font-semibold uppercase tracking-widest text-purple-300">✨ ESTUDIO • DISEÑO • Y MÁS ✨</span>
+            </div>
+        </div>
+        
+        <h1 class="text-4xl md:text-6xl font-bold tracking-tight bg-gradient-to-r from-purple-300 via-pink-200 to-indigo-300 bg-clip-text text-transparent mb-3 filter drop-shadow-[0_2px_10px_rgba(139,92,246,0.3)]">
+            Papelería Rv Design
+        </h1>
+        
+        <p class="text-lg md:text-xl text-purple-200 max-w-2xl mx-auto italic font-light">
+            "Herramientas mágicas para plasmar tu propio universo ✨"
+        </p>
+
+        <div class="flex justify-center gap-6 mt-6 text-sm text-purple-300/80">
+            <span class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-4 h-4 text-pink-400"></i> Maturín, Monagas</span>
+            <span class="flex items-center gap-1.5"><i data-lucide="shopping-bag" class="w-4 h-4 text-purple-400"></i> Catálogo Activo</span>
+        </div>
+    </header>
+
+    <!-- TASA DE CAMBIO CONSTANTE + ICONO CARRITO -->
+    <div class="relative z-10 max-w-6xl mx-auto px-4 mb-8 flex items-center justify-end gap-3">
+        <!-- ICONO DE LA CESTA - AQUÍ ARRIBA DONDE PEDISTE 🛍️💜 -->
+        <div class="cart-icon-container" onclick="scrollToCart()">
+            <i data-lucide="shopping-cart" class="w-5 h-5 text-purple-200"></i>
+            <span id="cart-badge" class="cart-badge hidden">0</span>
+        </div>
+        
+        <span class="inline-flex items-center gap-2 bg-purple-950/40 border border-purple-500/20 rounded-full px-4 py-1.5 text-xs text-purple-200">
+            <span class="w-2 h-2 rounded-full bg-green-400 animate-ping"></span>
+            Tasa de cambio: <strong id="tasa-display">--.--</strong> Bs/$
+        </span>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL: Catálogo -->
+    <main class="relative z-10 max-w-6xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- SECCIÓN IZQUIERDA Y CENTRAL: FILTROS Y PRODUCTOS -->
+        <div class="lg:col-span-3 space-y-6">
+            
+            <!-- BARRA DE CATEGORÍAS -->
+            <div class="flex flex-wrap gap-2 pb-2 border-b border-purple-500/10 overflow-x-auto justify-center">
+                <button onclick="filtrarCategoria('todos')" id="btn-cat-todos" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-purple-600 text-white shadow-lg shadow-purple-500/20 border border-purple-400/30">
+                    🌌 Todos
+                </button>
+                <button onclick="filtrarCategoria('estudio')" id="btn-cat-estudio" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-purple-950/60 text-purple-300 border border-purple-500/20 hover:bg-purple-900/40">
+                    ✏️ Estudio
+                </button>
+                <button onclick="filtrarCategoria('moda')" id="btn-cat-moda" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-purple-950/60 text-purple-300 border border-purple-500/20 hover:bg-purple-900/40">
+                    👑 Moda
+                </button>
+                <button onclick="filtrarCategoria('papeleria')" id="btn-cat-papeleria" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-purple-950/60 text-purple-300 border border-purple-500/20 hover:bg-purple-900/40">
+                    📓 Papelería
+                </button>
+                <button onclick="filtrarCategoria('publicidad')" id="btn-cat-publicidad" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-purple-950/60 text-purple-300 border border-purple-500/20 hover:bg-purple-900/40">
+                    📢 Publicidad y Logos
+                </button>
+            </div>
+
+            <!-- GRILLA DE PRODUCTOS -->
+            <div id="productos-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <!-- Los productos se cargarán dinámicamente mediante JS -->
+            </div>
+
+            <!-- MENSAJE MEJORA ESPECIAL: CATEGORÍA VACÍA (Oculto por defecto) -->
+            <div id="categoria-vacía" class="hidden cosmic-card rounded-2xl p-8 text-center space-y-6 max-w-lg mx-auto border-dashed border-2 border-purple-500/40">
+                <div class="w-20 h-20 bg-purple-900/30 rounded-full flex items-center justify-center mx-auto">
+                    <span class="text-4xl">🥺</span>
+                </div>
+                <div class="space-y-3">
+                    <h3 class="text-xl font-bold text-purple-200">Galaxia Inexplorada</h3>
+                    <p class="text-purple-300/80 text-sm leading-relaxed">
+                        Lamentablemente esta categoría no se encuentra entre nuestras galaxias 🥺. ¡Pero puede escribir a nuestro número de WhatsApp y solicitarlo directamente! Nuestra administradora te atenderá con mucho gusto, y puede que te lo consiga 😉✨
+                    </p>
+                </div>
+                <div class="pt-2">
+                    <a href="https://wa.me/584128895864?text=¡Hola!%20Estaba%20viendo%20tu%20tienda%20espacial%20y%20me%20gustaría%20solicitar%20un%20producto%20personalizado%20o%20de%20una%20categoría%20que%20no%20está%20listada%20✨" 
+                       target="_blank" 
+                       class="inline-flex items-center gap-2 cosmic-btn-primary text-white font-semibold py-3 px-6 rounded-xl text-sm transition-all shadow-lg">
+                        <i data-lucide="message-square" class="w-4 h-4"></i> Preguntar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- ✅ CARRITO FLOTANTE OCULTO - SOLO SE VE AL DAR CLIC AL ÍCONO -->
+    <div id="cartModal" class="cart-modal">
+        <div class="cart-content">
+            <button class="close-cart" onclick="cerrarCarrito()">×</button>
+            <div class="cosmic-card rounded-2xl p-6 shadow-xl">
+                <div class="flex items-center justify-between border-b border-purple-500/10 pb-4 mb-4">
+                    <h2 class="text-xl font-bold flex items-center gap-2 text-purple-200">
+                        <i data-lucide="shopping-cart" class="text-pink-400"></i> Mi Carrito
+                    </h2>
+                    <span id="cart-count" class="bg-purple-600 text-white text-xs font-bold px-2.5 py-1 rounded-full">0 items</span>
+                </div>
+
+                <div id="cart-items" class="space-y-4 max-h-[350px] overflow-y-auto pr-1 mb-4">
+                    <div id="cart-empty-msg" class="text-center py-8 text-purple-300/50 text-sm">
+                        <i data-lucide="sparkles" class="w-8 h-8 mx-auto mb-2 text-purple-500/30"></i>
+                        Tu carrito está flotando vacío en el espacio.
+                    </div>
+                </div>
+
+                <div class="border-t border-purple-500/10 pt-4 mt-4 space-y-2 mb-4">
+                    <div class="flex justify-between text-sm text-purple-300">
+                        <span>Total Ref. USD:</span>
+                        <span id="total-usd" class="font-bold text-white">$0.00</span>
+                    </div>
+                    <div class="flex justify-between text-base text-pink-300 font-semibold bg-pink-950/20 p-2 rounded-lg">
+                        <span>Total estimado en Bs:</span>
+                        <span id="total-bs">0.00 Bs</span>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs text-purple-300 mb-1">Nombre y Apellido *</label>
+                        <input type="text" id="comprador-nombre" required placeholder="Ej. Valentina Luna" 
+                            class="w-full bg-purple-950/40 border border-purple-500/30 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-pink-400 transition-colors">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-purple-300 mb-1">Teléfono / WhatsApp *</label>
+                        <input type="tel" id="comprador-telefono" required placeholder="Ej. 0412-1234567" 
+                            class="w-full bg-purple-950/40 border border-purple-500/30 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-pink-400 transition-colors">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-purple-300 mb-1">Método de entrega *</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <label class="flex items-center justify-center gap-1.5 p-2 bg-purple-950/40 border border-purple-500/30 rounded-xl cursor-pointer hover:border-pink-400 transition-all text-xs">
+                                <input type="radio" name="metodo-entrega" value="delivery" checked onchange="toggleMetodoEntrega()" class="accent-purple-500">
+                                🛵 Delivery
+                            </label>
+                            <label class="flex items-center justify-center gap-1.5 p-2 bg-purple-950/40 border border-purple-500/30 rounded-xl cursor-pointer hover:border-pink-400 transition-all text-xs">
+                                <input type="radio" name="metodo-entrega" value="tienda" onchange="toggleMetodoEntrega()" class="accent-purple-500">
+                                🏪 Retirar Tienda
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-purple-300 mb-1">Dirección de Envío *</label>
+                        <textarea id="comprador-direccion" rows="2" placeholder="Indica calles, puntos de referencia, etc." 
+                            class="w-full bg-purple-950/40 border border-purple-500/30 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-pink-400 transition-colors resize-none"></textarea>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-indigo-950/40 to-purple-950/40 border border-indigo-500/20 rounded-xl p-4 space-y-2 text-xs">
+                        <div class="flex items-center gap-1.5 text-indigo-300 font-semibold mb-1">
+                            <i data-lucide="wallet" class="w-4 h-4"></i> Datos para Pago Móvil
+                        </div>
+                        <div class="grid grid-cols-3 gap-y-1 text-purple-200">
+                            <span class="text-purple-300/70">Banco:</span>
+                            <span class="col-span-2 font-medium">Bco. Venezolano de Crédito (0104)</span>
+                            <span class="text-purple-300/70">Cédula:</span>
+                            <span class="col-span-2 font-medium">V-34.099.520</span>
+                            <span class="text-purple-300/70">Teléfono:</span>
+                            <span class="col-span-2 font-medium">0412-8895864</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-purple-300 mb-1">Nro. de Referencia (últimos 6 dígitos) *</label>
+                        <input type="text" id="pago-referencia" maxlength="6" required placeholder="Ej. 592841" 
+                            class="w-full bg-purple-950/40 border border-purple-500/30 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-pink-400 transition-colors font-mono">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-purple-300 mb-1">Capture o Captura de Pago *</label>
+                        <div class="flex items-center justify-center w-full">
+                            <label class="flex flex-col items-center justify-center w-full h-20 border-2 border-purple-500/30 border-dashed rounded-xl cursor-pointer bg-purple-950/10 hover:bg-purple-950/25 hover:border-pink-500/50 transition-all">
+                                <div class="flex flex-col items-center justify-center pt-2 pb-2">
+                                    <i data-lucide="image" class="w-5 h-5 text-purple-400 mb-1"></i>
+                                    <p class="text-[10px] text-purple-300/80" id="file-name-display">Selecciona imagen (JPG/PNG)</p>
+                                </div>
+                                <input id="pago-comprobante" type="file" accept="image/*" class="hidden" onchange="actualizarNombreArchivo(this)" required />
+                            </label>
+                        </div>
+                    </div>
+
+                    <button onclick="enviarPedido()" class="w-full text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 cosmic-btn-primary shadow-lg text-sm">
+                        <span>✉️ Enviar Pedido por WhatsApp</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTIFICACIONES CUSTOM (Sin usar alert) -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 bg-gradient-to-r from-purple-900 to-pink-900 border border-purple-500/30 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300">
+        <i data-lucide="check-circle" class="text-green-400 w-5 h-5" id="toast-icon"></i>
+        <span id="toast-msg" class="text-sm font-medium"></span>
+    </div>
+
+    <!-- ✅ AQUÍ ESTÁ TODO EL CÓDIGO QUE FUNCIONA, YA CORREGIDO -->
+    <script>
+        // Tasa de cambio de referencia
+        const TASA_CAMBIO = 45.50;
+
+        // Datos del catálogo
+        const PRODUCTOS = [
+            {
+                id: 1,
+                nombre: "Libreta Cósmica de Notas",
+                categoria: "papeleria",
+                precio: 4.50,
+                descripcion: "Tapa dura con diseño de constelaciones y detalles metalizados.",
+                imagen: "https://images.unsplash.com/photo-1531346878377-a5be20888e57?auto=format&fit=crop&q=80&w=400"
+            },
+            {
+                id: 2,
+                nombre: "Set de Marcadores Pastel (6 uds)",
+                categoria: "estudio",
+                precio: 3.00,
+                descripcion: "Gama mágica ideal para apuntes creativos y lettering.",
+                imagen: "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&q=80&w=400"
+            },
+            {
+                id: 3,
+                nombre: "Esferas de Gel Tinta Estelar (Negra)",
+                categoria: "estudio",
+                precio: 1.50,
+                descripcion: "Escritura ultra suave con punta fina para mayor precisión.",
+                imagen: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?auto=format&fit=crop&q=80&w=400"
+            },
+            {
+                id: 4,
+                nombre: "Tote Bag de Terciopelo Galáctico",
+                categoria: "moda",
+                precio: 8.00,
+                descripcion: "Bolso de hombro lila suave con bordados estelares dorados.",
+                imagen: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=400"
+            },
+            {
+                id: 5,
+                nombre: "Diseño de Logotipo Personalizado",
+                categoria: "publicidad",
+                precio: 25.00,
+                descripcion: "Branding completo, paleta de colores y entrega en formatos editables.",
+                imagen: "https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&q=80&w=400"
+            },
+            {
+                id: 6,
+                nombre: "Set de stickers holográficos espaciales",
+                categoria: "papeleria",
+                precio: 2.00,
+                descripcion: "Pegatinas resistentes al agua con destellos galácticos.",
+                imagen: "https://images.unsplash.com/photo-1572375995501-4b0894dbe7d1?auto=format&fit=crop&q=80&w=400"
+            }
+        ];
+
+        let carrito = [];
+        let categoriaSeleccionada = 'todos';
+        const direccionFija = "Monagas Maturín-Santa ines- Calle 2A- Transversal 12- Casa S/N";
+
+        window.onload = function() {
+            lucide.createIcons();
+            document.getElementById('tasa-display').innerText = TASA_CAMBIO.toFixed(2);
+            renderizarProductos();
+            actualizarInterfazCarrito();
+            toggleMetodoEntrega();
+        };
+        
+        // ✅ Abrir y Cerrar Carrito Flotante
+        function scrollToCart() {
+            document.getElementById('cartModal').classList.add('active');
+            lucide.createIcons();
+        }
+        function cerrarCarrito() {
+            document.getElementById('cartModal').classList.remove('active');
+        }
+
+        function renderizarProductos() {
+            const container = document.getElementById('productos-container');
+            const mensajeVacio = document.getElementById('categoria-vacía');
+            container.innerHTML = '';
+
+            const filtrados = PRODUCTOS.filter(prod => {
+                if (categoriaSeleccionada === 'todos') return true;
+                return prod.categoria === categoriaSeleccionada;
+            });
+
+            if (filtrados.length === 0) {
+                container.classList.add('hidden');
+                mensajeVacio.classList.remove('hidden');
+            } else {
+                container.classList.remove('hidden');
+                mensajeVacio.classList.add('hidden');
+
+                filtrados.forEach(prod => {
+                    const precioBs = (prod.precio * TASA_CAMBIO).toFixed(2);
+                    const card = document.createElement('div');
+                    card.className = "cosmic-card rounded-2xl overflow-hidden flex flex-col justify-between";
+                    card.innerHTML = `
+                        <div>
+                            <div class="h-48 overflow-hidden relative bg-purple-950">
+                                <img src="${prod.imagen}" alt="${prod.nombre}" onerror="this.src='https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=400'" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-300">
+                                <span class="absolute top-3 right-3 bg-purple-900/80 backdrop-blur-md text-purple-200 text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider">
+                                    ${prod.categoria}
+                                </span>
+                            </div>
+                            <div class="p-5 space-y-2">
+                                <h3 class="text-lg font-bold text-white group-hover:text-purple-300 transition-colors">${prod.nombre}</h3>
+                                <p class="text-purple-300/70 text-xs line-clamp-2">${prod.descripcion}</p>
+                            </div>
+                        </div>
+                        <div class="p-5 pt-0">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex flex-col">
+                                    <span class="text-xl font-bold text-white">$${prod.precio.toFixed(2)}</span>
+                                    <span class="text-[11px] text-pink-300 font-medium">${precioBs} Bs</span>
+                                </div>
+                                <button onclick="agregarAlCarrito(${prod.id})" class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-purple-600/30 text-purple-200 border border-purple-500/30 hover:bg-purple-600 hover:text-white transition-all">
+                                    <i data-lucide="plus" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+                lucide.createIcons();
+            }
+        }
+
+        function filtrarCategoria(cat) {
+            categoriaSeleccionada = cat;
+            
+            const categorias = ['todos', 'estudio', 'moda', 'papeleria', 'publicidad'];
+            categorias.forEach(c => {
+                const btn = document.getElementById(`btn-cat-${c}`);
+                if (c === cat) {
+                    btn.className = "px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-purple-600 text-white shadow-lg shadow-purple-500/20 border border-purple-400/30";
+                } else {
+                    btn.className = "px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-purple-950/60 text-purple-300 border border-purple-500/20 hover:bg-purple-900/40";
+                }
+            });
+
+            renderizarProductos();
+        }
+
+        function agregarAlCarrito(id) {
+            const productoOriginal = PRODUCTOS.find(p => p.id === id);
+            const index = carrito.findIndex(item => item.id === id);
+
+            if (index > -1) {
+                carrito[index].cantidad += 1;
+            } else {
+                carrito.push({
+                    ...productoOriginal,
+                    cantidad: 1
+                });
+            }
+
+            actualizarInterfazCarrito();
+            showToast(`¡"${productoOriginal.nombre}" agregado al cosmos del carrito! ✨`, "check-circle");
+        }
+
+        function cambiarCantidad(id, cambio) {
+            const index = carrito.findIndex(item => item.id === id);
+            if (index > -1) {
+                carrito[index].cantidad += cambio;
+                if (carrito[index].cantidad <= 0) {
+                    carrito.splice(index, 1);
+                }
+                actualizarInterfazCarrito();
+            }
+        }
+
+        function eliminarDelCarrito(id) {
+            carrito = carrito.filter(item => item.id !== id);
+            actualizarInterfazCarrito();
+            showToast("Producto removido del carrito 🌌", "trash");
+        }
+
+        function actualizarInterfazCarrito() {
+            const container = document.getElementById('cart-items');
+            const cartEmptyMsg = document.getElementById('cart-empty-msg');
+            const cartCount = document.getElementById('cart-count');
+            const totalUsdEl = document.getElementById('total-usd');
+            const totalBsEl = document.getElementById('total-bs');
+            const cartBadge = document.getElementById('cart-badge');
+
+            const totalItems = carrito.reduce((acc, curr) => acc + curr.cantidad, 0);
+            cartCount.innerText = `${totalItems} ${totalItems === 1 ? 'item' : 'items'}`;
+            
+            if(totalItems > 0) {
+                cartBadge.innerText = totalItems;
+                cartBadge.classList.remove('hidden');
+            } else {
+                cartBadge.classList.add('hidden');
+            }
+
+            if (carrito.length === 0) {
+                container.innerHTML = '';
+                container.appendChild(cartEmptyMsg);
+                totalUsdEl.innerText = "$0.00";
+                totalBsEl.innerText = "0.00 Bs";
+                return;
+            }
+
+            if (cartEmptyMsg.parentNode) {
+                cartEmptyMsg.remove();
+            }
+
+            container.innerHTML = '';
+            let totalUSD = 0;
+
+            carrito.forEach(item => {
+                const subtotal = item.precio * item.cantidad;
+                totalUSD += subtotal;
+
+                const row = document.createElement('div');
+                row.className = "flex items-center justify-between gap-3 bg-purple-950/30 p-2.5 rounded-xl border border-purple-500/10";
+                row.innerHTML = `
+                    <div class="flex items-center gap-2.5">
+                        <img src="${item.imagen}" alt="${item.nombre}" onerror="this.src='https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=400'" class="w-10 h-10 object-cover rounded-lg border border-purple-500/20">
+                        <div class="text-left">
+                            <h4 class="text-xs font-bold text-white line-clamp-1">${item.nombre}</h4>
+                            <span class="text-[10px] text-pink-300">$${item.precio.toFixed(2)} c/u</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="flex items-center gap-1.5 bg-[#0b071e] px-2 py-1 rounded-lg border border-purple-500/20">
+                            <button onclick="cambiarCantidad(${item.id}, -1)" class="text-purple-300 hover:text-white text-xs font-bold px-1">-</button>
+                            <span class="text-xs text-white font-semibold min-w-[12px] text-center">${item.cantidad}</span>
+                            <button onclick="cambiarCantidad(${item.id}, 1)" class="text-purple-300 hover:text-white text-xs font-bold px-1">+</button>
+                        </div>
+                        <button onclick="eliminarDelCarrito(${item.id})" class="text-purple-400 hover:text-red-400 transition-colors">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+
+            const totalBs = totalUSD * TASA_CAMBIO;
+            totalUsdEl.innerText = `$${totalUSD.toFixed(2)}`;
+            totalBsEl.innerText = `${totalBs.toFixed(2)} Bs`;
+            
+            lucide.createIcons();
+        }
+
+        function toggleMetodoEntrega() {
+            const radios = document.getElementsByName('metodo-entrega');
+            const direccionInput = document.getElementById('comprador-direccion');
+            let valorSeleccionado = '';
+
+            for (let i = 0; i < radios.length; i++) {
+                if (radios[i].checked) {
+                    valorSeleccionado = radios[i].value;
+                    break;
+                }
+            }
+
+            if (valorSeleccionado === 'tienda') {
+                direccionInput.value = direccionFija;
+                direccionInput.disabled = true;
+                direccionInput.classList.add('bg-purple-900/10', 'text-purple-300/60');
+                showToast("Se aplicará entrega física en nuestra tienda oficial de Maturín ✨", "info");
+            } else {
+                direccionInput.value = '';
+                direccionInput.disabled = false;
+                direccionInput.classList.remove('bg-purple-900/10', 'text-purple-300/60');
+                direccionInput.focus();
+            }
+        }
+
+        function actualizarNombreArchivo(input) {
+            const display = document.getElementById('file-name-display');
+            if (input.files && input.files[0]) {
+                display.innerText = `Adjunto: ${input.files[0].name}`;
+                display.classList.remove('text-purple-400/50');
+                display.classList.add('text-green-400', 'font-medium');
+                showToast("Comprobante cargado correctamente en el formulario ✔️", "check-circle");
+            } else {
+                display.innerText = "Obligatorio (JPG, PNG)";
+                display.classList.remove('text-green-400', 'font-medium');
+                display.classList.add('text-purple-400/50');
+            }
+        }
+
+        function enviarPedido() {
+            const nombre = document.getElementById('comprador-nombre').value.trim();
+            const telefono = document.getElementById('comprador-telefono').value.trim();
+            const direccion = document.getElementById('comprador-direccion').value.trim();
+            const referencia = document.getElementById('pago-referencia').value.trim();
+            const comprobanteInput = document.getElementById('pago-comprobante');
+
+            if (carrito.length === 0) {
+                showToast("⚠️ El carrito cósmico está vacío, agrega algunos productos primero.", "alert-triangle");
+                return;
+            }
+
+            if (!nombre || !telefono || !direccion || !referencia) {
+                showToast("⚠️ Por favor, rellena todos los campos obligatorios del formulario.", "alert-triangle");
+                return;
+            }
+
+            if (referencia.length !== 6 || isNaN(referencia)) {
+                showToast("⚠️ El número de referencia de pago móvil debe tener exactamente 6 dígitos numéricos.", "alert-triangle");
+                return;
+            }
+
+            if (!comprobanteInput.files || comprobanteInput.files.length === 0) {
+                showToast("⚠️ Debes adjuntar obligatoriamente el capture de tu pago móvil desde tu galería.", "alert-triangle");
+                return;
+            }
+
+            const radios = document.getElementsByName('metodo-entrega');
+            let metodo = '';
+            for (let i = 0; i < radios.length; i++) {
+                if (radios[i].checked) {
+                    metodo = radios[i].value === 'tienda' ? 'Retirar en Tienda 🏪' : 'Envío por Delivery 🛵';
+                    break;
+                }
+            }
+
+            const totalUSD = carrito.reduce((acc, curr) => acc + (curr.precio * curr.cantidad), 0);
+            const totalBs = totalUSD * TASA_CAMBIO;
+
+            let listaProductosTexto = "";
+            carrito.forEach(item => {
+                const sub = (item.precio * item.cantidad).toFixed(2);
+                listaProductosTexto += `🌌 x${item.cantidad} - ${item.nombre} ($${sub} USD)\n`;
+            });
+
+            const mensajeEncabezado = `✨ *NUEVO PEDIDO - PAPELERÍA RV DESIGN* ✨\n\n`;
+            const datosCliente = `👤 *CLIENTE:* ${nombre}\n📱 *TELÉFONO:* ${telefono}\n🚚 *ENTREGA:* ${metodo}\n📍 *DIRECCIÓN:* ${direccion}\n\n`;
+            const detallePedido = `🛍️ *PRODUCTOS SELECCIONADOS:*\n${listaProductosTexto}\n`;
+            const totales = `💵 *TOTAL REF:* $${totalUSD.toFixed(2)} USD\n🇻🇪 *TOTAL ESTIMADO EN BS:* ${totalBs.toFixed(2)} Bs\n(Tasa de Ref: ${TASA_CAMBIO} Bs)\n\n`;
+            const datosBancarios = `💳 *DATOS DE PAGO CONFIRMADO:* \n🏛️ *Banco:* Venezolano de Crédito (0104)\n📎 *Nro. de Referencia:* ${referencia}\n📸 *Comprobante:* Por favor, adjunta aquí la foto/captura de tu pago 📤👇\n\n`;
+            const mensajePie = `🌟 _¡Hola! He rellenado este pedido y adjuntado el comprobante de pago móvil. Quedo en espera de tu confirmación._`;
+
+            const mensajeCompleto = mensajeEncabezado + datosCliente + detallePedido + totales + datosBancarios + mensajePie;
+
+            const numeroDestinatario = "584128895864";
+            const urlWhatsApp = `https://wa.me/${numeroDestinatario}?text=${encodeURIComponent(mensajeCompleto)}`;
+
+            showToast("¡Pedido armado con éxito! Abriendo chat de WhatsApp...", "check-circle");
+            setTimeout(() => {
+                window.open(urlWhatsApp, '_blank');
+            }, 1200);
+        }
+
+        function showToast(mensaje, iconName = "info") {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-msg');
+            const toastIcon = document.getElementById('toast-icon');
+
+            toastMsg.innerText = mensaje;
+            toastIcon.setAttribute('data-lucide', iconName);
+            lucide.createIcons();
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 4500);
+        }
+    </script>
+
+</body>
+</html>
